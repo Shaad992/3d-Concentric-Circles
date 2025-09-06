@@ -1,0 +1,73 @@
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: #010001;
+  overflow: hidden;
+}
+
+.container {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: min(92vw, 540px);
+  height: min(75vw, 400px);
+}
+
+/* Hyper smooth & sharp concentric circles */
+.circle {
+  position: absolute;
+  border: 2.5px solid;
+  border-radius: 50%;
+  /* Responsive circle sizes */
+  width: calc(12vw + var(--i)*3.5vw);
+  height: calc(12vw + var(--i)*3.5vw);
+  max-width: calc(60px + var(--i)*23px);
+  max-height: calc(60px + var(--i)*23px);
+  min-width: 28px;
+  min-height: 28px;
+  border-color: hsl(calc(var(--i) * 18),90%,59%);
+  /* Sharper glow + layer effect */
+  box-shadow:
+    0 0 18px 3px hsl(calc(var(--i)*18),97%,63%),
+    0 0 1px #fff inset;
+  /* 3D stacking and vertical offset */
+  transform: perspective(800px) rotateX(66deg) translateY(calc(var(--i) * 15px));
+  opacity: 0;
+  animation: upDownMove 6s cubic-bezier(.73,0,.18,1) infinite alternate;
+  animation-delay: calc(var(--i) * 0.12s);
+  /* Remove anti-aliasing to make lines sharper */
+  will-change: opacity, filter, transform;
+}
+
+@keyframes upDownMove {
+  0%   { opacity: 0.5; transform: perspective(800px) rotateX(69deg) translateY(210px) scale(0.80); filter: blur(4px);}
+  7%   { opacity: 0.75; filter: blur(2.5px);}
+  18%  { opacity: 1; filter: blur(1.2px);}
+  32%  { opacity: 1; filter: blur(0.5px);}
+  52%  { opacity: 1; filter: blur(0); transform: perspective(800px) rotateX(66deg) translateY(calc(var(--i)*-15px)) scale(1.10);}
+  68%  { opacity: 1; filter: blur(0.5px);}
+  86%  { opacity: 0.95; filter: blur(1.3px);}
+  100% { opacity: 0.52; transform: perspective(800px) rotateX(69deg) translateY(210px) scale(0.80); filter: blur(4px);}
+}
+
+/* MOBILE RESPONSIVE */
+@media (max-width: 600px) {
+  .container {
+    width: 99vw;
+    height: 85vw;
+  }
+  .circle {
+    width: calc(24vw + var(--i)*4.3vw);
+    height: calc(24vw + var(--i)*4.3vw);
+    max-width: calc(40px + var(--i)*11px);
+    max-height: calc(40px + var(--i)*11px);
+    min-width: 20px;
+    min-height: 20px;
+    transform: perspective(800px) rotateX(67deg) translateY(calc(var(--i) * 9px));
+    animation-delay: calc(var(--i) * 0.09s);
+  }
+}
